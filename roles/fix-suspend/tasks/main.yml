@@ -1,0 +1,20 @@
+# bash command, that made suspend possible was `sudo sh -c 'echo GPP0 > /proc/acpi/wakeup'`
+- name: Create and configure disable-gpp0-wakeup service
+  ansible.builtin.ini_file:
+    path: /etc/systemd/system/disable-gpp0-wakeup.service
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  loop:
+    - { section: Unit, option: Description, value: "Disable GPP0 wakeup" }
+    - { section: Service, option: Type, value: oneshot }
+    - { section: Service, option: ExecStart, value: "/bin/sh -c 'echo GPP0 > /proc/acpi/wakeup'" }
+    - { section: Install, option: WantedBy, value: multi-user.target }
+
+- name: Enable and start disable-gpp0-wakeup service
+  ansible.builtin.systemd:
+    name: disable-gpp0-wakeup
+    state: started
+    daemon_reload: true
+    enabled: true
+    

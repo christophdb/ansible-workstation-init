@@ -38,7 +38,8 @@
   #    msg: "{{ actual_user }}"
 
   roles:
-    - basic-customizing
+    - fix-suspend
+    #- basic-customizing
     #- basic-folders-and-files
     #- basic-tools
     #- bluetooth-wifi

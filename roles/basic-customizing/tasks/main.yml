@@ -1,0 +1,65 @@
+- name: Configure GNOME Shell Dash-to-Dock extension
+  community.general.dconf:
+    key: "/org/gnome/shell/extensions/dash-to-dock/{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  loop:
+    - { key: "click-action", value: "'minimize'" }
+    - { key: "dash-max-icon-size", value: "28" }
+    - { key: "dock-alignment", value: "'START'" }
+    - { key: "dock-fixed", value: "true" }
+    - { key: "dock-position", value: "'LEFT'" }
+    - { key: "extend-height", value: "true" }
+    - { key: "intellihide", value: "false" }
+    - { key: "manualhide", value: "false" }
+    - { key: "show-mounts", value: "true" }
+
+- name: Configure Application Starter in Dock
+  become_user: "{{ actual_user }}"
+  community.general.dconf:
+    key: "/org/gnome/shell/favorite-apps"
+    value: "['pop-cosmic-launcher.desktop', 'google-chrome.desktop', 'firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.keepassxc.KeePassXC.desktop', 'naps2.desktop', 'code.desktop', 'geany.desktop', 'gnome-control-center.desktop']"
+    state: present
+
+- name: Configure Clock
+  become_user: "{{ actual_user }}"
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/clock-format"
+    value: "24h"
+    state: present
+
+- name: Set lock screen shortcut to Super+L
+  become_user: "{{ actual_user }}"
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/screensaver"
+    value: "['<Super>l']"
+    state: present
+
+- name: copy wallpaper file
+  copy:
+    src: wallpaper.png
+    dest: /usr/share/backgrounds/ansible-wallpaper.png
+    owner: root
+    group: root
+
+- name: set wallpaper
+  become_user: "{{ actual_user }}"
+  dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop:
+    - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///usr/share/backgrounds/ansible-wallpaper.png'" }
+    - { key: "/org/gnome/desktop/background/picture-uri-dark", value: "'file:///usr/share/backgrounds/ansible-wallpaper.png'" }
+    - { key: "/org/gnome/desktop/background/picture-options", value: "'zoom'" }
+
+- name: copy .bashrc file
+  copy:
+    src: bashrc
+    dest: "/home/{{ actual_user }}/.bashrc"
+    owner: "{{ actual_user }}"
+
+- name: copy .gitconfig file
+  copy:
+    src: gitconfig
+    dest: "/home/{{ actual_user }}/.gitconfig"
+    owner: "{{ actual_user }}"

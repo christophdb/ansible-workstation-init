@@ -1,0 +1,4 @@
+- name: install docker
+  shell: curl -fsSL https://get.docker.com | bash
+  args:
+    creates: /usr/bin/docker

@@ -47,3 +47,22 @@
     key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
     value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
     state: present
+
+- name: Configure Flameshot
+  become_user: "{{ actual_user }}"
+  copy:
+    content: |
+      [General]
+      buttons=@Variant(\0\0\0\x7f\0\0\0\vQList<int>\0\0\0\0\x10\0\0\0\0\0\0\0\x1\0\0\0\x2\0\0\0\x3\0\0\0\x4\0\0\0\x5\0\0\0\x6\0\0\0\x12\0\0\0\xf\0\0\0\x13\0\0\0\b\0\0\0\t\0\0\0\x10\0\0\0\n\0\0\0\v\0\0\0\x17)
+      contrastOpacity=107
+      copyAndCloseAfterUpload=false
+      disabledTrayIcon=false
+      drawColor=#ff8000
+      savePathFixed=true
+      showStartupLaunchMessage=false
+      uiColor=#ff8000
+      undoLimit=20
+    dest: "/home/{{ actual_user }}/.config/flameshot/flameshot.ini"
+    mode: '0644'
+
+

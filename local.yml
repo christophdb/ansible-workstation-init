@@ -38,68 +38,23 @@
   #    msg: "{{ actual_user }}"
 
   roles:
-    - basic-tools
-    #- steam
-    #- bluetooth-wifi
-    #- seafile-client
-    #- flameshot
-    - teleport
-    #- google-chrome
-    #- vscode
-    #- naps
+    - basic-customizing
     #- basic-folders-and-files
-    - firewall
-
+    #- basic-tools
+    #- bluetooth-wifi
+    #- docker
+    #- firewall
+    #- flameshot
+    #- google-chrome
+    #- naps
+    #- seafile-client
+    #- steam
+    #- teleport
+    #- vscode
+    
   tasks:
-  - name: Stop the playbook
-    meta: end_play
-
-
-
-
-
-  - name: Set lock screen shortcut to Super+L
-    become_user: "{{ actual_user }}"
-    dconf:
-      key: "/org/gnome/settings-daemon/plugins/media-keys/screensaver"
-      value: "['<Super>l']"
-      state: present
-
-  # docker
-  - name: install docker
-    shell: curl -fsSL https://get.docker.com | bash
-    args:
-      creates: /usr/bin/docker
-
-  # Desktop customizing
-  - name: copy wallpaper file
-    copy:
-      src: files/wallpaper.png
-      dest: /usr/share/backgrounds/ansible-wallpaper.png
-      owner: root
-      group: root
-
-  - name: set wallpaper
-    become_user: "{{ actual_user }}"
-    dconf:
-      key: "{{ item.key }}"
-      value: "{{ item.value }}"
-    loop:
-      - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///usr/share/backgrounds/ansible-wallpaper.png'" }
-      - { key: "/org/gnome/desktop/background/picture-uri-dark", value: "'file:///usr/share/backgrounds/ansible-wallpaper.png'" }
-      - { key: "/org/gnome/desktop/background/picture-options", value: "'zoom'" }
-
-  - name: copy .bashrc file
-    copy:
-      src: files/bashrc
-      dest: "/home/{{ actual_user }}/.bashrc"
-      owner: "{{ actual_user }}"
-
-  - name: copy .gitconfig file
-    copy:
-      src: files/gitconfig
-      dest: "/home/{{ actual_user }}/.gitconfig"
-      owner: "{{ actual_user }}"
+  #- name: Stop the playbook
+  #  meta: end_play
 
   - name: Last steps to finish your setup
     debug:
@@ -108,7 +63,8 @@
         - "1. Create Accounts in Seafile Client"
         - "2. Save ssh-keys to ~/.ssh and chmod 600 ~/.ssh/*"
         - "3. Configure Thunderbird (Mail and Calendar)"
-        - "4. Reboot"
+        - "4. Save Wireguard Configs to /etc/wireguard/"
+        - "5. Reboot"
 
 #  - name: add ansible user
 #    user:

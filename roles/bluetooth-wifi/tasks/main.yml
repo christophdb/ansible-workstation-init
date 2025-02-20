@@ -1,0 +1,16 @@
+- name: install TLP (power management tool for linux)
+  package:
+    name: tlp
+    state: present
+
+- name: Enable TLP service
+  systemd:
+    name: tlp
+    enabled: yes
+    state: started
+
+- name: Configure TLP to disable Bluetooth and Wi-Fi on startup
+  lineinfile:
+    path: /etc/tlp.conf
+    regexp: '^#?DEVICES_TO_DISABLE_ON_STARTUP='
+    line: 'DEVICES_TO_DISABLE_ON_STARTUP="bluetooth wifi"'

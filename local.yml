@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
-  connection: local
   become: true
+  connection: local
 
   vars:
     teleport_version: "17.2.7"
@@ -10,6 +10,8 @@
     - group_vars/all.yml
 
   roles:
+    - steam
+    - bluetooth-wifi
     #- google-chrome
     #- vscode-extensions
 
@@ -217,7 +219,7 @@
       msg: 
         - "Next steps are:"
         - "1. Create Accounts in Seafile Client"
-        - "2. Save ssh-keys to ~/.ssh"
+        - "2. Save ssh-keys to ~/.ssh and chmod 600 ~/.ssh/*"
         - "3. Configure Thunderbird"
         - "4. Reboot"
 

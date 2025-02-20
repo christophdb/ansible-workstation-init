@@ -1,0 +1,65 @@
+apt install dconf-cli
+dconf dump / > settings.txt
+
+
+[x] keepassxc
+[x] gimp
+[x] naps2
+[ ] naps konfiguration
+[x] geany?
+[x] seafile-client
+[x] vlc
+[x] flameshot
+[ ] flameshot konfiguration
+[x] peek
+[ ] download avatar and profile pictures
+[ ] seatable-logo and seatable-email-signature
+[ ] shortcuts:
+    [x] open terminal (SUPER+T) 
+    [x] lock with  (POWER+L)
+    [x] move windows to right or left and expand  (Ansicht rechts teilen: SUPER+STRG+RECHTS)
+[x] Chrome extensions und chrome startseiten
+[ ] gnome extensions
+[x] stop if executed as root -> ich überprüfe distro und desktop
+[ ] dock konfigurieren
+[ ] geany automatisch speichern
+[x] vstudio code extensions
+[x] aktuellen user auslesen und als variable verwenden
+[x] aufsplitten in mehrere dateien.
+[x] rsync
+[x] steam (als rolle)?
+
+[ ] audiogeräte deaktivieren?? ist das überhaupt möglich?
+[ ] suspend! diese verhindern das:
+GP18	  S4	*enabled   pci:0000:00:08.1
+GPP0	  S4	*enabled   pci:0000:00:01.1
+GPP8      S4	*enabled   pci:0000:00:03.1
+=> anscheinend das letzte?
+
+[ ] unnötiges entfernen: evolution, yelp?? games
+
+[x] startprogramme:
+- seafile-client
+- flameshot
+[ ] firewall -> nichts erlauben
+[ ] Docker Verzeichnis
+- burp suite
+- syncting web ui
+[ ] forticlient
+[ ] ssh-keys
+[ ] Verzeichnisse für seafile und git
+[ ] anydesk
+[ ] teamviewer
+[x] bluetooth standardmäßig aus
+[x] wlan standardmäßig aus
+
+[ ] rollen für verschiedene dinge?
+
+Unklar:
+[ ] tastatur auf notebook? (input-remapper-autoload?)
+wo kriege ich meinen SSH Key her? Seafile?
+nvm, n8n (vielleicht per docker)
+azure, aws, dieses ganze deploy von vms?
+exoscale cli tool
+
+

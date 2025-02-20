@@ -1,7 +1,6 @@
 - name: install google chrome
   package:
-    name:
-    - google-chrome-stable
+    name: google-chrome-stable
     state: present
 
 - name: Create a directory

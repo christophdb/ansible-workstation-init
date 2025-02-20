@@ -1,5 +1,22 @@
 vscode_extensions:
   - esbenp.prettier-vscode
+  - pranaygp.vscode-css-peek
+  - ms-vscode-remote.remote-containers
+  - ms-azuretools.vscode-docker
+  - dsznajder.es7-react-js-snippets
+  - dbaeumer.vscode-eslint
+  - ms-ceintl.vscode-language-pack-de
+  - vincaslt.highlight-matching-tag
+  - ecmel.vscode-html-css
+  - integromat.apps-sdk
+  - yzhang.markdown-all-in-one
+  - yzane.markdown-pdf
+  - marp-team.marp-vscode
+  - 42crunch.vscode-openapi
+  - natizyskunk.sftp
+  - wayou.vscode-todo-highlight
+  - redhat.vscode-yaml
+
 
 google_chrome_startup_pages:
   - "https://www.seatable.io"

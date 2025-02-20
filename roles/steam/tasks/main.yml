@@ -1,0 +1,4 @@
+- name: install steam
+  package:
+    name: steam
+    state: present

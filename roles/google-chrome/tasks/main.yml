@@ -1,0 +1,31 @@
+- name: install google chrome
+  package:
+    name:
+    - google-chrome-stable
+    state: present
+
+- name: Create a directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - /etc/opt/chrome/policies/managed/
+    - /opt/google/chrome/extensions/
+
+- name: Create Google Chrome startup pages JSON file
+  copy:
+    content: |
+      {
+        "RestoreOnStartup": 4,
+        "RestoreOnStartupURLs": {{ google_chrome_startup_pages | to_json }}
+      }
+    dest: "/etc/opt/chrome/policies/managed/startup_pages.json"
+    mode: '0644'
+
+- name: Install Chrome extensions
+  copy:
+    content: '{"external_update_url": "https://clients2.google.com/service/update2/crx"}'
+    dest: "/opt/google/chrome/extensions/{{ item }}.json"
+  loop: "{{ google_chrome_extensions }}"
+  

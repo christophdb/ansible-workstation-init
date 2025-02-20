@@ -1,0 +1,12 @@
+vscode_extensions:
+  - esbenp.prettier-vscode
+
+google_chrome_startup_pages:
+  - "https://www.seatable.io"
+  - "https://auth.seatable.io"
+  - "https://pass.seatable.io"
+  - "https://perplexity.ai"
+
+google_chrome_extensions:
+  - "ibiipnmmlnehmeonnhbdajcfagcgihkl"  # Passwork
+  - "oldceeleldhonbafppcapldpdifcinji"  # LanguageTool

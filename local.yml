@@ -1,0 +1,245 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+
+  vars:
+    teleport_version: "17.2.7"
+    actual_user: "{{ lookup('env', 'USER') }}"
+  vars_files:
+    - group_vars/all.yml
+
+  roles:
+    #- google-chrome
+    #- vscode-extensions
+
+  tasks:
+  #- name: user output
+  #  debug:
+  #    msg: "{{ actual_user }}"
+
+  - name: Create folder structure
+    become_user: "{{ actual_user }}"
+    file:
+      path: "{{ item }}"
+      state: directory
+      mode: '0755'
+    loop:
+      - /home/{{ actual_user }}/Github/
+      - /home/{{ actual_user }}/cloud.dyllick-brenzinger.com/
+      
+
+
+  - name: Stop the playbook
+    meta: end_play
+
+  # google chrome
+  
+
+  # user check...
+  - name: User check
+    assert:
+      that:
+        - actual_user != "root"
+      fail_msg: "This playbook should not be run as root. Please use a non-root user with sudo privileges."
+
+  - name: Distro check
+    assert:
+      that:
+        - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Pop!_OS'
+      fail_msg: "This role is only intended for Debian/Ubuntu systems"
+
+  - name: GNOME Desktop check
+    ansible.builtin.command: echo $XDG_CURRENT_DESKTOP
+    register: desktop_env
+    changed_when: false
+
+  - name: GNOME Desktop check
+    ansible.builtin.assert:
+      that: "'GNOME' in desktop_env.stdout"
+      fail_msg: "The current desktop environment is not GNOME"
+      success_msg: "The current desktop environment is GNOME"
+
+  - name: Set lock screen shortcut to Super+L
+    become_user: "{{ actual_user }}"
+    dconf:
+      key: "/org/gnome/settings-daemon/plugins/media-keys/screensaver"
+      value: "['<Super>l']"
+      state: present
+
+  # seafile
+  - name: Add Seafile GPG key
+    apt_key:
+      url: https://linux-clients.seafile.com/seafile.asc
+      state: present
+
+  - name: Add Seafile repository
+    apt_repository:
+      repo: deb [arch=amd64] https://linux-clients.seafile.com/seafile-deb/{{ ansible_distribution_release }}/ stable main
+      state: present
+      filename: seafile
+
+  - name: Update package cache and upgrade all packages
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+      upgrade: dist
+      force_apt_get: yes
+    when: ansible_os_family == "Debian"
+
+  - name: install tools
+    package:
+      name:
+      - htop
+      - curl
+      - pwgen
+      - tree
+      - wget
+      - tar
+      - nano
+      - ca-certificates
+      - python3-psutil
+      - thunderbird
+      #- google-chrome-stable
+      - code
+      - gimp
+      #- naps2 (nicht hier...)
+      - seafile-gui
+      - keepassxc
+      - geany
+      - vlc
+      - flameshot
+      state: present
+
+  # teleport
+  - name: Download teleport deb
+    get_url:
+      url: https://cdn.teleport.dev/teleport_{{ teleport_version }}_amd64.deb
+      dest: /tmp/teleport_{{ teleport_version }}_amd64.deb
+
+  - name: Install Teleport Connect with the script
+    apt:
+      deb: /tmp/teleport_{{ teleport_version }}_amd64.deb
+      state: present
+    become: yes
+
+  # naps2
+  - name: Download and install NAPS2
+    apt:
+      deb: https://github.com/cyanfish/naps2/releases/download/v7.5.3/naps2-7.5.3-linux-x64.deb
+      state: present
+
+  # flameshot
+  - name: Ensure autostart directory exists
+    become_user: "{{ actual_user }}"
+    file:
+      path: "/home/{{ actual_user }}/.config/autostart"
+      state: directory
+      mode: '0755'
+
+  - name: Create Flameshot autostart entry
+    become_user: "{{ actual_user }}"
+    copy:
+      content: |
+        [Desktop Entry]
+        Type=Application
+        Name=Flameshot
+        Exec=flameshot
+        Icon=flameshot
+        Terminal=false
+        X-GNOME-Autostart-enabled=true
+      dest: "/home/{{ actual_user }}/.config/autostart/flameshot.desktop"
+      mode: '0644'
+
+  - name: Disable default screenshot shortcut
+    become_user: "{{ actual_user }}"
+    dconf:
+      key: "/org/gnome/settings-daemon/plugins/media-keys/screenshot"
+      value: "['']"
+
+  - name: Set custom keybinding for Flameshot
+    become_user: "{{ actual_user }}"
+    dconf:
+      key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/{{ item.subkey }}"
+      value: "{{ item.value }}"
+      state: present
+    loop:
+      - { subkey: "binding", value: "'Print'" }
+      - { subkey: "command", value: "'/usr/bin/flameshot gui'" }
+      - { subkey: "name", value: "'flameshot'" }
+
+  - name: Enable custom keybindings
+    become_user: "{{ actual_user }}"
+    dconf:
+      key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+      value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+      state: present
+
+  # docker
+  - name: install docker
+    shell: curl -fsSL https://get.docker.com | bash
+    args:
+      creates: /usr/bin/docker
+
+  - name: copy wallpaper file
+    copy:
+      src: files/wallpaper.png
+      dest: /usr/share/backgrounds/ansible-wallpaper.png
+      owner: root
+      group: root
+
+  - name: set wallpaper
+    become_user: "{{ actual_user }}"
+    dconf:
+      key: "{{ item.key }}"
+      value: "{{ item.value }}"
+    loop:
+      - { key: "/org/gnome/desktop/background/picture-uri", value: "'file:///usr/share/backgrounds/ansible-wallpaper.png'" }
+      - { key: "/org/gnome/desktop/background/picture-uri-dark", value: "'file:///usr/share/backgrounds/ansible-wallpaper.png'" }
+      - { key: "/org/gnome/desktop/background/picture-options", value: "'zoom'" }
+
+  - name: copy .bashrc file
+    copy:
+      src: files/bashrc
+      dest: "/home/{{ actual_user }}/.bashrc"
+      owner: "{{ actual_user }}"
+      owner: "{{ actual_user }}"
+
+  - name: copy .gitconfig file
+    copy:
+      src: files/gitconfig
+      dest: "/home/{{ actual_user }}/.gitconfig"
+      owner: "{{ actual_user }}"
+      owner: "{{ actual_user }}"
+
+  - name: Next steps
+    debug:
+      msg: 
+        - "Next steps are:"
+        - "1. Create Accounts in Seafile Client"
+        - "2. Save ssh-keys to ~/.ssh"
+        - "3. Configure Thunderbird"
+        - "4. Reboot"
+
+
+
+#  - name: add ansible user
+#    user:
+#      name: ansible
+#      system: yes
+
+#  - name: set up sudo for ansible user
+#    copy:
+#      src: files/sudoer_ansible
+#      dest: /etc/sudoers.d/ansible
+#      owner: root
+#      group: root
+#      mode: 0440
+
+#  - name: add ansible-pull cronjob
+#    cron:
+#      name: ansible auto-provision
+#      user: ansible
+#      minute: "*/10"
+#      job: ansible-pull -o -U https://github.com/christophdb/ansible_pull_workstation.git
+

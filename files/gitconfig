@@ -1,0 +1,7 @@
+[user]
+        email = cdb@datamate.org
+        name = Christoph Dyllick-Brenzinger
+[credential] 
+        helper = cache
+[init]
+        defaultBranch = main

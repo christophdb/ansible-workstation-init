@@ -28,7 +28,7 @@
 
   - name: Desktop check
     assert:
-      that: "desktop_env.stdout in ['GNOME', 'Unity']"
+      that: "'gnome' in desktop_env.stdout.lower() or 'unity' in desktop_env.stdout.lower()"
       fail_msg: "The current desktop environment is neither GNOME nor Unity"
       success_msg: "This is a desktop environment"
   
@@ -43,23 +43,17 @@
     #- bluetooth-wifi
     #- seafile-client
     #- flameshot
-    - teleport
+    #- teleport
     #- google-chrome
     #- vscode
+    #- naps
+    - basic-folders-and-files
 
   tasks:
   - name: Stop the playbook
     meta: end_play
 
-  - name: Create folder structure
-    become_user: "{{ actual_user }}"
-    file:
-      path: "{{ item }}"
-      state: directory
-      mode: '0755'
-    loop:
-      - /home/{{ actual_user }}/Github/
-      - /home/{{ actual_user }}/cloud.dyllick-brenzinger.com/
+
 
 
 
@@ -68,12 +62,6 @@
     dconf:
       key: "/org/gnome/settings-daemon/plugins/media-keys/screensaver"
       value: "['<Super>l']"
-      state: present
-
-  # naps2
-  - name: Download and install NAPS2
-    apt:
-      deb: https://github.com/cyanfish/naps2/releases/download/v7.5.3/naps2-7.5.3-linux-x64.deb
       state: present
 
   # docker

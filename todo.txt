@@ -5,16 +5,16 @@ dconf dump / > settings.txt
 [x] keepassxc
 [x] gimp
 [x] naps2
-[ ] naps konfiguration
+[x] naps und scanner konfiguration
 [x] geany?
 [x] seafile-client
 [x] vlc
 [x] flameshot
 [ ] flameshot konfiguration
 [x] peek
-[ ] download avatar and profile pictures
-[ ] seatable-logo and seatable-email-signature
-[ ] shortcuts:
+[x] download avatar and profile pictures
+[x] seatable-logo and seatable-email-signature
+[x] shortcuts:
     [x] open terminal (SUPER+T) 
     [x] lock with  (POWER+L)
     [x] move windows to right or left and expand  (Ansicht rechts teilen: SUPER+STRG+RECHTS)

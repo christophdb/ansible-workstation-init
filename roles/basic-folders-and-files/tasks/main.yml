@@ -1,0 +1,20 @@
+- name: Create folder structure
+  become_user: "{{ actual_user }}"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - /home/{{ actual_user }}/Github/
+    - /home/{{ actual_user }}/cloud.dyllick-brenzinger.com/
+    - /home/{{ actual_user }}/file.datamate.org/
+    - /home/{{ actual_user }}/file.seatable.io/
+
+- name: copy all files to home folder
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ actual_user }}"
+    owner: "{{ actual_user }}"
+    group: "{{ actual_user }}"
+  with_fileglob:
+    - "*"

@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfScanProfile>
+  <ScanProfile>
+    <Version>2</Version>
+    <Device>
+      <ID>brother4:bus1;dev1</ID>
+      <Name>ADS-2100e (brother4)</Name>
+    </Device>
+    <DriverName>sane</DriverName>
+    <DisplayName>ADS-2100e</DisplayName>
+    <IconID>0</IconID>
+    <MaxQuality>false</MaxQuality>
+    <IsDefault>false</IsDefault>
+    <UseNativeUI>false</UseNativeUI>
+    <AfterScanScale>OneToOne</AfterScanScale>
+    <Brightness>0</Brightness>
+    <Contrast>0</Contrast>
+    <BitDepth>C24Bit</BitDepth>
+    <PageAlign>Right</PageAlign>
+    <PageSize>A4</PageSize>
+    <CustomPageSizeName p3:nil="true" xmlns:p3="http://www.w3.org/2001/XMLSchema-instance" />
+    <CustomPageSize p3:nil="true" xmlns:p3="http://www.w3.org/2001/XMLSchema-instance" />
+    <Resolution>Dpi200</Resolution>
+    <PaperSource>Duplex</PaperSource>
+    <EnableAutoSave>true</EnableAutoSave>
+    <AutoSaveSettings>
+      <FilePath>/home/christoph/Scan2Paperless/$(YYYY)-$(MM)-$(DD)-$(nnnn).pdf</FilePath>
+      <PromptForFilePath>false</PromptForFilePath>
+      <ClearImagesAfterSaving>false</ClearImagesAfterSaving>
+      <Separator>FilePerScan</Separator>
+    </AutoSaveSettings>
+    <Quality>80</Quality>
+    <AutoDeskew>true</AutoDeskew>
+    <RotateDegrees>0</RotateDegrees>
+    <BrightnessContrastAfterScan>false</BrightnessContrastAfterScan>
+    <ForcePageSize>false</ForcePageSize>
+    <ForcePageSizeCrop>false</ForcePageSizeCrop>
+    <TwainImpl>Default</TwainImpl>
+    <ExcludeBlankPages>true</ExcludeBlankPages>
+    <BlankPageWhiteThreshold>80</BlankPageWhiteThreshold>
+    <BlankPageCoverageThreshold>20</BlankPageCoverageThreshold>
+    <WiaOffsetWidth>false</WiaOffsetWidth>
+    <WiaRetryOnFailure>false</WiaRetryOnFailure>
+    <WiaDelayBetweenScans>false</WiaDelayBetweenScans>
+    <WiaDelayBetweenScansSeconds>2</WiaDelayBetweenScansSeconds>
+    <WiaVersion>Default</WiaVersion>
+    <FlipDuplexedPages>false</FlipDuplexedPages>
+    <KeyValueOptions p3:nil="true" xmlns:p3="http://www.w3.org/2001/XMLSchema-instance" />
+  </ScanProfile>
+  <ScanProfile>
+    <Version>2</Version>
+    <Device>
+      <ID>brother4:bus1;dev1</ID>
+      <Name>ADS-2100e (brother4)</Name>
+    </Device>
+    <DriverName>sane</DriverName>
+    <DisplayName>ADS-2100e (erst lokal)</DisplayName>
+    <IconID>0</IconID>
+    <MaxQuality>false</MaxQuality>
+    <IsDefault>true</IsDefault>
+    <UseNativeUI>false</UseNativeUI>
+    <AfterScanScale>OneToOne</AfterScanScale>
+    <Brightness>0</Brightness>
+    <Contrast>0</Contrast>
+    <BitDepth>C24Bit</BitDepth>
+    <PageAlign>Right</PageAlign>
+    <PageSize>A4</PageSize>
+    <CustomPageSizeName p3:nil="true" xmlns:p3="http://www.w3.org/2001/XMLSchema-instance" />
+    <CustomPageSize p3:nil="true" xmlns:p3="http://www.w3.org/2001/XMLSchema-instance" />
+    <Resolution>Dpi200</Resolution>
+    <PaperSource>Duplex</PaperSource>
+    <EnableAutoSave>true</EnableAutoSave>
+    <AutoSaveSettings>
+      <FilePath>/home/christoph/$(YYYY)-$(MM)-$(DD)-$(nnnn).pdf</FilePath>
+      <PromptForFilePath>false</PromptForFilePath>
+      <ClearImagesAfterSaving>false</ClearImagesAfterSaving>
+      <Separator>FilePerScan</Separator>
+    </AutoSaveSettings>
+    <Quality>80</Quality>
+    <AutoDeskew>true</AutoDeskew>
+    <RotateDegrees>0</RotateDegrees>
+    <BrightnessContrastAfterScan>false</BrightnessContrastAfterScan>
+    <ForcePageSize>false</ForcePageSize>
+    <ForcePageSizeCrop>false</ForcePageSizeCrop>
+    <TwainImpl>Default</TwainImpl>
+    <ExcludeBlankPages>true</ExcludeBlankPages>
+    <BlankPageWhiteThreshold>80</BlankPageWhiteThreshold>
+    <BlankPageCoverageThreshold>20</BlankPageCoverageThreshold>
+    <WiaOffsetWidth>false</WiaOffsetWidth>
+    <WiaRetryOnFailure>false</WiaRetryOnFailure>
+    <WiaDelayBetweenScans>false</WiaDelayBetweenScans>
+    <WiaDelayBetweenScansSeconds>2</WiaDelayBetweenScansSeconds>
+    <WiaVersion>Default</WiaVersion>
+    <FlipDuplexedPages>false</FlipDuplexedPages>
+    <KeyValueOptions p3:nil="true" xmlns:p3="http://www.w3.org/2001/XMLSchema-instance" />
+  </ScanProfile>
+</ArrayOfScanProfile>

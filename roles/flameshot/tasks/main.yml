@@ -1,0 +1,49 @@
+- name: install flameshot
+  package:
+    name: flameshot
+    state: present
+
+- name: Ensure autostart directory exists
+  become_user: "{{ actual_user }}"
+  file:
+    path: "/home/{{ actual_user }}/.config/autostart"
+    state: directory
+    mode: '0755'
+
+- name: Create Flameshot autostart entry
+  become_user: "{{ actual_user }}"
+  copy:
+    content: |
+      [Desktop Entry]
+      Type=Application
+      Name=Flameshot
+      Exec=flameshot
+      Icon=flameshot
+      Terminal=false
+      X-GNOME-Autostart-enabled=true
+    dest: "/home/{{ actual_user }}/.config/autostart/flameshot.desktop"
+    mode: '0644'
+
+- name: Disable default screenshot shortcut
+  become_user: "{{ actual_user }}"
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/screenshot"
+    value: "['']"
+
+- name: Set custom keybinding for Flameshot
+  become_user: "{{ actual_user }}"
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/{{ item.subkey }}"
+    value: "{{ item.value }}"
+    state: present
+  loop:
+    - { subkey: "binding", value: "'Print'" }
+    - { subkey: "command", value: "'/usr/bin/flameshot gui'" }
+    - { subkey: "name", value: "'flameshot'" }
+
+- name: Enable custom keybindings
+  become_user: "{{ actual_user }}"
+  dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+    value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+    state: present

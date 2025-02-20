@@ -1,0 +1,33 @@
+- name: Get current Teleport version
+  command: teleport version
+  register: current_teleport_version
+  ignore_errors: true
+
+- name: Check if teleport is already installed
+  assert:
+    that: "teleport_version in current_teleport_version.stdout"
+    success_msg: "Teleport version {{ teleport_version }} is already installed"
+    fail_msg: "Teleport version {{ teleport_version }} needs to be installed"
+  register: teleport_exists # ('teleport_exists.failed = false' means it is installed)
+  ignore_errors: true
+
+#- name: debug teleport_exists
+#  debug:
+#    msg: "{{ teleport_exists }}"
+
+- name: Set update_needed fact
+  set_fact:
+    update_needed: "{{ teleport_exists.failed }}"
+
+- name: Download teleport deb
+  get_url:
+    url: https://cdn.teleport.dev/teleport_{{ teleport_version }}_amd64.deb
+    dest: /tmp/teleport_{{ teleport_version }}_amd64.deb
+  when: update_needed
+
+- name: Install Teleport with the script
+  apt:
+    deb: /tmp/teleport_{{ teleport_version }}_amd64.deb
+    state: present
+  become: true
+  when: update_needed

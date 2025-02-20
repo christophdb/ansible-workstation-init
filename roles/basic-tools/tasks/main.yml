@@ -1,0 +1,26 @@
+- name: Update package cache and upgrade all packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    upgrade: dist
+    force_apt_get: yes
+  when: ansible_os_family == "Debian"
+
+- name: install basic tools
+  package:
+    name:
+    - htop
+    - curl
+    - pwgen
+    - tree
+    - wget
+    - tar
+    - nano
+    - ca-certificates
+    - python3-psutil
+    - thunderbird
+    - gimp
+    - keepassxc
+    - geany
+    - vlc
+    state: present

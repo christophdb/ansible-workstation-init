@@ -1,3 +1,8 @@
+- name: install tools
+  package:
+    name: code
+    state: present
+
 - name: Install VS Code extensions
   become_user: "{{ actual_user }}"
   ansible.builtin.command: code --install-extension {{ item }}

@@ -1,3 +1,5 @@
+teleport_version: "17.2.8"
+
 vscode_extensions:
   - esbenp.prettier-vscode
   - pranaygp.vscode-css-peek
@@ -19,9 +21,10 @@ vscode_extensions:
 
 
 google_chrome_startup_pages:
-  - "https://www.seatable.io"
   - "https://auth.seatable.io"
+  - "https://cloud.seatable.io"
   - "https://pass.seatable.io"
+  - "http://192.168.7.20:81/"
   - "https://perplexity.ai"
 
 google_chrome_extensions:

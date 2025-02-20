@@ -1,0 +1,36 @@
+- name: Add Seafile GPG key
+  apt_key:
+    url: https://linux-clients.seafile.com/seafile.asc
+    state: present
+
+- name: Add Seafile repository
+  apt_repository:
+    repo: deb [arch=amd64] https://linux-clients.seafile.com/seafile-deb/{{ ansible_distribution_release }}/ stable main
+    state: present
+    filename: seafile
+
+- name: install tools
+  package:
+    name: seafile-gui
+    state: present
+
+- name: Ensure autostart directory exists
+  become_user: "{{ actual_user }}"
+  file:
+    path: "/home/{{ actual_user }}/.config/autostart"
+    state: directory
+    mode: '0755'
+
+- name: Create Seafile autostart entry
+  become_user: "{{ actual_user }}"
+  copy:
+    content: |
+      [Desktop Entry]
+      Type=Application
+      Exec=seafile-applet
+      Name=Seafile Sync Client
+      Hidden=false
+      NoDisplay=false
+      X-GNOME-Autostart-enabled=true
+    dest: "/home/{{ actual_user }}/.config/autostart/seafile-applet.desktop"
+    mode: '0644'

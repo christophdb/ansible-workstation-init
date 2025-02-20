@@ -41,19 +41,21 @@ GPP8      S4	*enabled   pci:0000:00:03.1
 [x] startprogramme:
 - seafile-client
 - flameshot
-[ ] firewall -> nichts erlauben
+[x] firewall -> nichts erlauben
 [ ] Docker Verzeichnis
 - burp suite
 - syncting web ui
-[ ] forticlient
-[ ] ssh-keys
-[ ] Verzeichnisse für seafile und git
-[ ] anydesk
-[ ] teamviewer
+
+
+[x] ssh-keys (manuell)
+[x] Verzeichnisse für seafile und git
+[/] anydesk => brauche ich nicht...
+[x] teamviewer
+[x] forticlient
+[ ] wireguard -> Konfiguration?!?
 [x] bluetooth standardmäßig aus
 [x] wlan standardmäßig aus
-
-[ ] rollen für verschiedene dinge?
+[x] rollen für verschiedene dinge?
 
 Unklar:
 [ ] tastatur auf notebook? (input-remapper-autoload?)

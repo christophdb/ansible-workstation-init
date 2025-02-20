@@ -6,7 +6,7 @@
     force_apt_get: yes
   when: ansible_os_family == "Debian"
 
-- name: install basic tools
+- name: Install Basic Tools
   package:
     name:
     - htop
@@ -23,4 +23,16 @@
     - keepassxc
     - geany
     - vlc
+    - wireguard
+    - openfortivpn
     state: present
+
+- name: Pause for 5 seconds to build app cache
+  ansible.builtin.pause:
+    seconds: 5
+
+- name: Install TeamViewer
+  apt:
+    deb: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+    state: present
+

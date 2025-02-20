@@ -38,16 +38,17 @@
   #    msg: "{{ actual_user }}"
 
   roles:
-    #- basic-tools
+    - basic-tools
     #- steam
     #- bluetooth-wifi
     #- seafile-client
     #- flameshot
-    #- teleport
+    - teleport
     #- google-chrome
     #- vscode
     #- naps
-    - basic-folders-and-files
+    #- basic-folders-and-files
+    - firewall
 
   tasks:
   - name: Stop the playbook

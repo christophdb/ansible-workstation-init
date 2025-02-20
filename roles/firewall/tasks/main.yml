@@ -1,0 +1,16 @@
+- name: Install UFW
+  apt:
+    name: ufw
+    state: present
+
+- name: Firewall Outgoing allow
+  community.general.ufw:
+    state: enabled
+    direction: outgoing
+    policy: allow
+
+- name: Firewall Incoming deny
+  community.general.ufw:
+    state: enabled
+    direction: incoming
+    policy: deny

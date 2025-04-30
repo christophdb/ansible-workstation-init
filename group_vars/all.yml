@@ -19,12 +19,10 @@ vscode_extensions:
   - wayou.vscode-todo-highlight
   - redhat.vscode-yaml
 
-
 google_chrome_startup_pages:
   - "https://auth.seatable.io"
   - "https://cloud.seatable.io"
   - "https://pass.seatable.io"
-  - "http://192.168.7.20:81/"
   - "https://perplexity.ai"
 
 google_chrome_extensions:

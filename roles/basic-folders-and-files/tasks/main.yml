@@ -1,16 +1,28 @@
-- name: Create folder structure
+- name: Create folder structure (general)
   become_user: "{{ actual_user }}"
   file:
     path: "{{ item }}"
     state: directory
     mode: '0755'
   loop:
-    - /home/{{ actual_user }}/Github/
-    - /home/{{ actual_user }}/cloud.dyllick-brenzinger.com/
+    - /home/{{ actual_user }}/github/
     - /home/{{ actual_user }}/file.datamate.org/
     - /home/{{ actual_user }}/file.seatable.io/
+    - /home/{{ actual_user }}/docker
 
-- name: copy all files to home folder
+# Christoph only
+- name: Create folder structure (christoph only)
+  become_user: "{{ actual_user }}"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - /home/{{ actual_user }}/cloud.dyllick-brenzinger.com/
+    - /home/{{ actual_user }}/Sync
+  when: actual_user == "christoph"
+
+- name: copy all files to home folder (christoph only)
   copy:
     src: "{{ item }}"
     dest: "/home/{{ actual_user }}"
@@ -18,3 +30,4 @@
     group: "{{ actual_user }}"
   with_fileglob:
     - "*"
+  when: actual_user == "christoph"

@@ -1,23 +1,21 @@
 
 [ ] gnome extensions
 [ ] geany automatisch speichern
+[ ] geany Werkzeugleiste ausblenden
 
+[ ] anderes terminal
 [ ] audiogeräte deaktivieren?? ist das überhaupt möglich?
-[ ] suspend! diese verhindern das:
-GP18	  S4	*enabled   pci:0000:00:08.1
-GPP0	  S4	*enabled   pci:0000:00:01.1
-GPP8      S4	*enabled   pci:0000:00:03.1
-=> anscheinend das letzte? nö
-
-Das ist es...
- sudo sh -c 'echo GPP0 > /proc/acpi/wakeup'
-
-
 
 [ ] unnötiges entfernen: evolution, yelp?? games
-[ ] Docker Verzeichnis
-- burp suite
+[ ] burp suite
 
+[ ] dafür will ich jeweils einen Docker Container... Ich will, wenn möglich kein php, nvm, cli tools etc installieren müssen.
 nvm, n8n (vielleicht per docker)
 azure, aws, dieses ganze deploy von vms?
 exoscale cli tool
+
+[ ] syncthing zum abgleich unter den rechnern? brauche ich das? oder für paperxxx
+[ ] alias für wireguard
+[ ] wireguard configurationsdateien in seafile ablegen
+
+[ ] docker tools für anonymes surfen, ...

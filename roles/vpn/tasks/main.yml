@@ -1,0 +1,6 @@
+- name: Install VPN Tools
+  package:
+    name:
+    - wireguard
+    - openfortivpn
+    state: present

@@ -1,6 +1,7 @@
 ---
 - hosts: localhost
   become: true
+  gather_facts: true
   connection: local
 
   vars:
@@ -31,27 +32,50 @@
       that: "'gnome' in desktop_env.stdout.lower() or 'unity' in desktop_env.stdout.lower()"
       fail_msg: "The current desktop environment is neither GNOME nor Unity"
       success_msg: "This is a desktop environment"
+
+  - name: Test sudo access via ansible.builtin.shell
+    ansible.builtin.shell: "whoami"
+    become: true
+    register: sudo_test
+    ignore_errors: yes
+
+  - name: Validate sudo access
+    ansible.builtin.assert:
+      that:
+        - "'root' in sudo_test.stdout"
+      fail_msg: "Sudo authentication failed"
   
   # DEBUG MESSAGE
   #- name: user output
   #  debug:
   #    msg: "{{ actual_user }}"
+    
 
   roles:
-    - fix-suspend
-    #- basic-customizing
-    #- basic-folders-and-files
-    #- basic-tools
-    #- bluetooth-wifi
-    #- docker
-    #- firewall
-    #- flameshot
-    #- google-chrome
-    #- naps
-    #- seafile-client
-    #- steam
-    #- teleport
-    #- vscode
+    - basic-folders-and-files
+    - basic-tools
+    - bluetooth-wifi
+    - docker
+    - firewall
+    - flameshot
+    - google-chrome
+    - seafile-client
+    - teleport
+    - vscode
+    - role: desktop-customizing
+      tags: ['customizing']
+    - role: slides
+      tags: ['slides']
+    - role: fix-suspend
+      tags: ['suspend']
+    - role: brother-scanner
+      tags: ['brother-scanner']
+    - role: steam
+      tags: ['steam']
+    - role: vpn
+      tags: ['vpn']
+    - role: syncthing
+      tags: ['syncthing']
     
   tasks:
   #- name: Stop the playbook

@@ -25,7 +25,7 @@
   become_user: "{{ actual_user }}"
   community.general.dconf:
     key: "/org/gnome/desktop/interface/clock-format"
-    value: "24h"
+    value: "'24h'"
     state: present
 
 - name: Set lock screen shortcut to Super+L

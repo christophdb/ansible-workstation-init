@@ -13,7 +13,6 @@
     - { key: "intellihide", value: "false" }
     - { key: "manualhide", value: "false" }
     - { key: "show-mounts", value: "true" }         # Dock: Zeige gemountete Datenträger
-    - { key: "show-banners", value: "false" }       # Benachrichtigungen: nicht stören
 
 - name: Configure Application Starter in Dock
   become_user: "{{ actual_user }}"
@@ -29,18 +28,21 @@
     value: "'24h'"
     state: present
 
-- name: Keybindings for window locks
+- name: Keybindings for window locks, notifications
   become_user: "{{ actual_user }}"
   dconf:
     key: "{{ item.key }}"
     value: "{{ item.value }}"
     state: present
   loop:
+    # Keybindings
     - { key: "/org/gnome/settings-daemon/plugins/media-keys/screensaver", value: "['<Super>l']" }   # Set lock screen shortcut to Super+L
     - { key: "/org/gnome/mutter/keybindings/toggle-tiled-left", value: "['<Super>Left']" }          # Move Windows to the left
     - { key: "/org/gnome/mutter/keybindings/toggle-tiled-right", value: "['<Super>Right']" }        # Move Windows to the right
     - { key: "/org/gnome/shell/extensions/pop-shell/focus-left", value: "@as []" }
     - { key: "/org/gnome/shell/extensions/pop-shell/focus-right", value: "@as []" }
+    # Benachrichtigungen
+    - { key: "org/gnome/desktop/notifications/show-banners", value: "false" }                       # Benachrichtigungen: nicht stören
 
 - name: copy wallpaper file
   copy:

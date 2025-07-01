@@ -15,6 +15,8 @@ nvm (vielleicht per docker)
 azure, aws, dieses ganze deploy von vms?
 exoscale cli tool
 
+[ ] marp slides
+
 [ ] syncthing zum abgleich unter den rechnern? brauche ich das? oder für paperxxx
 [ ] alias für wireguard
 [ ] wireguard configurationsdateien in seafile ablegen

@@ -51,31 +51,32 @@
   #    msg: "{{ actual_user }}"
     
   roles:
-    - basic-folders-and-files
-    - basic-tools
-    - bluetooth-wifi
-    - docker
-    - firewall
-    - flameshot
-    - google-chrome
-    - oh-my-zsh
-    - seafile-client
-    - teleport
-    - vscode
+    #- basic-folders-and-files
+    #- basic-tools
+    #- bluetooth-wifi
+    #- docker
+    #- firewall
+    #- flameshot
+    #- google-chrome
+    #- oh-my-zsh
+    #- peek
+    #- seafile-client
+    #- teleport
+    #- vscode
     - role: desktop-customizing
       tags: ['customizing']
-    - role: slides
-      tags: ['slides']
-    - role: fix-suspend
-      tags: ['suspend']
-    - role: brother-scanner
-      tags: ['brother-scanner']
-    - role: steam
-      tags: ['steam']
-    - role: vpn
-      tags: ['vpn']
-    - role: syncthing
-      tags: ['syncthing']
+    #- role: slides
+    #  tags: ['slides']
+    #- role: fix-suspend
+    #  tags: ['suspend']
+    #- role: brother-scanner
+    #  tags: ['brother-scanner']
+    #- role: steam
+    #  tags: ['steam']
+    #- role: vpn
+    #  tags: ['vpn']
+    #- role: syncthing
+    #  tags: ['syncthing']
     
   tasks:
   #- name: Stop the playbook

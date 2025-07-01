@@ -3,6 +3,7 @@
 [ ] geany automatisch speichern
 [ ] geany Werkzeugleiste ausblenden
 
+[x] peek
 [x] anderes terminal -> zsh
 [ ] audiogeräte deaktivieren?? ist das überhaupt möglich?
 
@@ -21,4 +22,4 @@ exoscale cli tool
 [ ] docker tools für anonymes surfen, ...
 [ ] die gitconfig muss andere werte enthalten...
 
-[ ] andocken von fenstern an die ecken mit SUPER + Pfeiltasten richtig konfigurieren!
+[x] andocken von fenstern an die ecken mit SUPER + Pfeiltasten richtig konfigurieren!

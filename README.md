@@ -26,8 +26,13 @@ ansible-playbook local.yml --tags steam
 
 ### Available Tags
 
-...
-
+- customizing
+- slides
+- suspend
+- brother-scanner
+- steam
+- vpn
+- syncthing
 
 ## Advanced topics
 

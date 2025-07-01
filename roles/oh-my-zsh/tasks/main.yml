@@ -21,3 +21,8 @@
   args:
     chdir: "/home/{{ actual_user }}"
   become_user: "{{ actual_user }}"
+
+- name: Delete install-oh-my-zsh.sh
+  file:
+    path: /home/{{ actual_user }}/install-oh-my-zsh.sh
+    state: absent

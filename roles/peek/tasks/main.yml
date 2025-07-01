@@ -1,0 +1,21 @@
+- name: Ensure peek and ffmpeg is installed
+  package:
+    name: 
+    - peek
+    - ffmpeg
+    state: present
+
+- name: Create Peek desktop entry
+  copy:
+    dest: "/home/{{ actual_user }}/.local/share/applications/com.uploadedlobster.peek.desktop"
+    content: |
+      [Desktop Entry]
+      Name=Peek v2
+      Comment=Screen recorder with FFmpeg backend
+      Exec=peek -b ffmpeg
+      Keywords=screencast;screen recorder;screen capture;GIF;WebM;APNG;
+      Icon=com.uploadedlobster.peek
+      Terminal=false
+      Type=Application
+      Categories=Utility;
+    mode: '0644'

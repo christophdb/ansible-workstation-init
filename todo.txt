@@ -3,14 +3,14 @@
 [ ] geany automatisch speichern
 [ ] geany Werkzeugleiste ausblenden
 
-[ ] anderes terminal
+[x] anderes terminal -> zsh
 [ ] audiogeräte deaktivieren?? ist das überhaupt möglich?
 
 [ ] unnötiges entfernen: evolution, yelp?? games
 [ ] burp suite
 
 [ ] dafür will ich jeweils einen Docker Container... Ich will, wenn möglich kein php, nvm, cli tools etc installieren müssen.
-nvm, n8n (vielleicht per docker)
+nvm (vielleicht per docker)
 azure, aws, dieses ganze deploy von vms?
 exoscale cli tool
 
@@ -19,3 +19,6 @@ exoscale cli tool
 [ ] wireguard configurationsdateien in seafile ablegen
 
 [ ] docker tools für anonymes surfen, ...
+[ ] die gitconfig muss andere werte enthalten...
+
+[ ] andocken von fenstern an die ecken mit SUPER + Pfeiltasten richtig konfigurieren!

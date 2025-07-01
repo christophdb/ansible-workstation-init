@@ -50,7 +50,6 @@
   #  debug:
   #    msg: "{{ actual_user }}"
     
-
   roles:
     - basic-folders-and-files
     - basic-tools
@@ -59,6 +58,7 @@
     - firewall
     - flameshot
     - google-chrome
+    - oh-my-zsh
     - seafile-client
     - teleport
     - vscode

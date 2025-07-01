@@ -1,0 +1,39 @@
+- name: Install Basic Tools
+  package:
+    name:
+    - htop
+    - curl
+    - pwgen
+    - tree
+    - wget
+    - tar
+    - nano
+    - ncdu
+    - ca-certificates
+    - python3-psutil
+    - thunderbird
+    - gimp
+    - keepassxc
+    - geany
+    - vlc
+    - wireguard
+    - openfortivpn
+    - syncthing
+    state: present
+
+- name: Create Syncthing autostart entry
+  become_user: "{{ actual_user }}"
+  copy:
+    content: |
+      [Desktop Entry]
+      Name=Start Syncthing
+      GenericName=File synchronization
+      Comment=Starts the main syncthing process in the background.
+      Exec=/usr/bin/syncthing serve --no-browser --logfile=default
+      Icon=syncthing
+      Terminal=false
+      Type=Application
+      Keywords=synchronization;daemon;
+      Categories=Network;FileTransfer;P2P
+    dest: "/home/{{ actual_user }}/.config/autostart/syncthing-start.desktop"
+    mode: '0644'

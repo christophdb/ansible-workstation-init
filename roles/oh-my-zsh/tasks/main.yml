@@ -1,0 +1,23 @@
+- name: Ensure zsh is installed
+  package:
+    name: zsh
+    state: present
+
+- name: Set default shell to zsh for user
+  user:
+    name: "{{ actual_user }}"
+    shell: /bin/zsh
+
+- name: Download Oh My Zsh install script
+  become_user: "{{ actual_user }}"
+  get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: "/home/{{ actual_user }}/install-oh-my-zsh.sh"
+    mode: '0755'
+
+- name: Run Oh My Zsh install script
+  shell: |
+    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh /home/{{ actual_user }}/install-oh-my-zsh.sh
+  args:
+    chdir: "/home/{{ actual_user }}"
+  become_user: "{{ actual_user }}"

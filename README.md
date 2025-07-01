@@ -28,3 +28,10 @@ ansible-playbook local.yml --tags steam
 
 ...
 
+
+## Advanced topics
+
+### Gnome desktop configuration ermitteln:
+
+dconf dump / > test.txt
+diff test2.txt test.txt

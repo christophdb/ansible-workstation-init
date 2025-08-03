@@ -1,0 +1,17 @@
+---
+services:
+  ocrmypdf:
+    restart: always
+    container_name: ocrmypdf
+    image: jbarlow83/ocrmypdf-alpine
+    volumes:
+      - "/home/christoph/ocr/input:/input"
+      - "/home/christoph/ocr/output:/output"
+      - "/home/christoph/ocr/processed:/processed"
+    environment:
+      - OCR_ON_SUCCESS_ARCHIVE=1
+      - OCR_JSON_SETTINGS={"language":"deu+eng"}
+      #- OCR_LOGLEVEL=DEBUG
+    user: "1000:1000"
+    entrypoint: python3
+    command: watcher.py

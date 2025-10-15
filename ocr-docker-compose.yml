@@ -8,6 +8,7 @@ services:
       - "/home/christoph/ocr/input:/input"
       - "/home/christoph/ocr/output:/output"
       - "/home/christoph/ocr/processed:/processed"
+      # in processed liegen die original (archivierten Dateien)
     environment:
       - OCR_ON_SUCCESS_ARCHIVE=1
       - OCR_JSON_SETTINGS={"language":"deu+eng"}

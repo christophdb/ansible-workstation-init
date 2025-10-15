@@ -25,3 +25,11 @@ exoscale cli tool
 [ ] die gitconfig muss andere werte enthalten...
 
 [x] andocken von fenstern an die ecken mit SUPER + Pfeiltasten richtig konfigurieren!
+
+##############
+
+[ ] syncthing nur optional => einfach autostart deaktivieren
+[ ] brave browser installieren
+[ ] datamate wallpaper
+[ ] scans (ocrmypdf liegt unter ~/docker/ocr)
+

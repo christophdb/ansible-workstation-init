@@ -29,7 +29,7 @@
 
   - name: Desktop check
     assert:
-      that: "'gnome' in desktop_env.stdout.lower() or 'unity' in desktop_env.stdout.lower()"
+      that: "'gnome' in desktop_env.stdout.lower() or 'unity' in desktop_env.stdout.lower() or 'cosmic' in desktop_env.stdout.lower()"
       fail_msg: "The current desktop environment is neither GNOME nor Unity"
       success_msg: "This is a desktop environment"
 
@@ -63,8 +63,8 @@
     #- seafile-client
     #- teleport
     #- vscode
-    - role: desktop-customizing
-      tags: ['customizing']
+    #- role: desktop-customizing
+    #  tags: ['customizing']
     #- role: slides
     #  tags: ['slides']
     #- role: fix-suspend

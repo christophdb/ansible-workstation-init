@@ -1,0 +1,24 @@
+- name: Check if chezmoi is already installed
+  command: chezmoi --version
+  register: chezmoi_check
+  changed_when: false
+  failed_when: false
+
+- name: Install chezmoi to /usr/local/bin
+  command: sh -c "curl -fsLS https://get.chezmoi.io | sh -s -- -b /usr/local/bin"
+  args:
+    creates: /usr/local/bin/chezmoi
+
+- name: Ensure chezmoi config directory exists
+  file:
+    path: "/home/{{ actual_user }}/.config/chezmoi"
+    state: directory
+    mode: '0755'
+
+- name: Create chezmoi config file with nano as editor
+  copy:
+    dest: "/home/{{ actual_user }}/.config/chezmoi/chezmoi.toml"
+    content: |
+      [edit]
+      command = "nano"
+    mode: '0644'

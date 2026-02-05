@@ -51,6 +51,7 @@
   #    msg: "{{ actual_user }}"
     
   roles:
+    - chezmoi
     #- basic-folders-and-files
     #- basic-tools
     #- bluetooth-wifi
@@ -88,9 +89,12 @@
         - "Last steps are:"
         - "1. Create Accounts in Seafile Client"
         - "2. Save ssh-keys to ~/.ssh and chmod 600 ~/.ssh/*"
-        - "3. Configure Thunderbird (Mail and Calendar)"
-        - "4. Save Wireguard Configs to /etc/wireguard/"
-        - "5. Reboot"
+        - "3. chezmoi: "
+        - "   chezmoi init git@github.com:christophdb/dotfiles.git"
+        - "   "
+        - "4. Configure Thunderbird (Mail and Calendar)"
+        - "5. Save Wireguard Configs to /etc/wireguard/"
+        - "6. Reboot"
 
 #  - name: add ansible user
 #    user:

@@ -91,7 +91,7 @@
         - "2. Save ssh-keys to ~/.ssh and chmod 600 ~/.ssh/*"
         - "3. chezmoi: "
         - "   chezmoi init git@github.com:christophdb/dotfiles.git"
-        - "   "
+        - "   chezmoi apply"
         - "4. Configure Thunderbird (Mail and Calendar)"
         - "5. Save Wireguard Configs to /etc/wireguard/"
         - "6. Reboot"

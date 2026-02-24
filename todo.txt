@@ -33,3 +33,45 @@ exoscale cli tool
 [ ] datamate wallpaper
 [ ] scans (ocrmypdf liegt unter ~/docker/ocr)
 
+
+###########
+
+
+----------------
+
+PEEK funktioniert nicht zuverlässig unter popos und ubuntu!
+
+nano .local/share/applications/com.uploadedlobster.peek.desktop
+
+[Desktop Entry]
+Name=Peek v2
+Comment=Screen recorder with FFmpeg backend
+Exec=peek -b ffmpeg
+Keywords=screencast;screen recorder;screen capture;GIF;WebM;APNG;
+Icon=com.uploadedlobster.peek
+Terminal=false
+Type=Application
+Categories=Utility;
+
+dann:
+update-desktop-database ~/.local/share/applications/
+
+https://www.perplexity.ai/search/does-popos-uses-wayland-Uje7rfRVQA.pBeEOh5Tdiw
+
+---
+
+zsh in popos?
+    sudo apt install zsh
+    chsh -s $(which zsh)
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    aus-/einloggen
+    
+--- später noch nvm???
+
+
+https://snapcraft.io/install/hplip-printer-app/pop#install
+hp pürinter driver installieren für popos
+
+sudo usermod -a -G lpadmin $USER
+WICHTIG !!!
+

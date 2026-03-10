@@ -80,6 +80,8 @@
     #  tags: ['syncthing']
     #- role: spotify
     #  tags: ['spotify']
+    #- role: video-tools
+    #  tags: ['video-tools']
     
   tasks:
   #- name: Stop the playbook

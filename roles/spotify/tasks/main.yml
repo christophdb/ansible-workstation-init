@@ -1,0 +1,16 @@
+- name: install flatpak (if not already installed)
+  package:
+    name: flatpak
+    state: present
+
+- name: add flathub repository
+  community.general.flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    state: present
+
+- name: install spotify via flatpak
+  community.general.flatpak:
+    name: com.spotify.Client
+    state: present
+    remote: flathub

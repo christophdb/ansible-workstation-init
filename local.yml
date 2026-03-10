@@ -78,6 +78,8 @@
     #  tags: ['vpn']
     #- role: syncthing
     #  tags: ['syncthing']
+    #- role: spotify
+    #  tags: ['spotify']
     
   tasks:
   #- name: Stop the playbook

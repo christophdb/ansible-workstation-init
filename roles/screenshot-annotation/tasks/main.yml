@@ -1,0 +1,43 @@
+- name: download satty binary
+  become_user: "{{ actual_user }}"
+  get_url:
+    url: https://github.com/Satty-org/Satty/releases/download/v0.20.1/satty-x86_64-unknown-linux-gnu.tar.gz
+    dest: /tmp/satty.tar.gz
+
+- name: extract satty binary
+  unarchive:
+    src: /tmp/satty.tar.gz
+    dest: /tmp/
+    remote_src: yes
+
+- name: install satty binary
+  copy:
+    src: /tmp/satty
+    dest: /usr/local/bin/satty
+    mode: '0755'
+    remote_src: yes
+
+- name: ensure cosmic shortcuts directory exists
+  become_user: "{{ actual_user }}"
+  file:
+    path: "/home/{{ actual_user }}/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1"
+    state: directory
+    mode: '0755'
+
+- name: configure scroll lock shortcut for satty
+  become_user: "{{ actual_user }}"
+  copy:
+    content: |
+      {
+          (modifiers: [], key: "Scroll_Lock"): Spawn("bash -c 'satty --filename \"$(ls -t ~/Bilder/*.png | head -1)\"'"),
+      }
+    dest: "/home/{{ actual_user }}/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom"
+    mode: '0644'
+
+- name: cleanup satty download
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/satty.tar.gz
+    - /tmp/satty

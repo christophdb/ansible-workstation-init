@@ -58,9 +58,11 @@
     #- docker
     #- firewall
     #- flameshot
+    #- role: screenshot-annotation
+    #  tags: ['screenshot-annotation']
     #- google-chrome
     #- oh-my-zsh
-    #- peek
+    #- gif-tools
     #- seafile-client
     #- teleport
     #- vscode

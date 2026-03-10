@@ -24,6 +24,7 @@
     - keepassxc
     - geany
     - vlc
+    - gh
     state: present
 
 - name: Pause for 5 seconds to build app cache

@@ -1,0 +1,21 @@
+- name: install flatpak (if not already installed)
+  package:
+    name: flatpak
+    state: present
+
+- name: add flathub repository
+  community.general.flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    state: present
+
+- name: install kooha via flatpak
+  community.general.flatpak:
+    name: io.github.seadve.Kooha
+    state: present
+    remote: flathub
+
+- name: install gifsicle for gif compression
+  package:
+    name: gifsicle
+    state: present

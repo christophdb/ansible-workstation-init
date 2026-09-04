@@ -28,3 +28,28 @@ google_chrome_startup_pages:
 google_chrome_extensions:
   - "ibiipnmmlnehmeonnhbdajcfagcgihkl"  # Passwork
   - "oldceeleldhonbafppcapldpdifcinji"  # LanguageTool
+
+# --- Instant-Wake-Fix (Rolle fix-suspend, Tag: suspend) ---------------------
+# ACPI-Weckquellen, die ein sofortiges Aufwachen aus S3 ausloesen.
+#
+# ACHTUNG, streng hardwareabhaengig: Diese Namen stammen aus den ACPI-Tabellen
+# (DSDT) des jeweiligen Mainboards. Auf anderer Hardware existieren sie nicht
+# oder bezeichnen andere Geraete. Darum die Zuordnung ueber ansible_board_name.
+# Fuer ein Board ohne Eintrag macht die Rolle bewusst nichts.
+#
+# Ermittlung fuer ein neues Board: docs/suspend-instant-wake.md
+#
+#   disable: wird beim Boot abgeschaltet
+#   keep:    bleibt bewusst scharf, nur zur Dokumentation - siehe Kommentar
+wakeup_fix_boards:
+  "B550I AORUS PRO AX":
+    disable: [GPP0, GP18, GPP8, SWUS, SWDS, PT20, PT24, PTXH]
+    # GP17 (0000:00:07.1) -> XHC0 (0000:0b:00.3) ist der Pfad zur USB-Tastatur.
+    # Nachweislich unschuldig, muss scharf bleiben, sonst geht Aufwecken per
+    # Tastendruck verloren. Gilt nur solange die Tastatur an einem Port dieses
+    # Controllers steckt - nach Umstecken neu pruefen.
+    keep: [GP17, XHC0]
+
+# Leerlaufzeit bis zum automatischen Ruhemodus am Netzteil, in Millisekunden.
+# "None" (als String) schaltet den automatischen Ruhemodus ab.
+cosmic_suspend_on_ac_ms: 1800000

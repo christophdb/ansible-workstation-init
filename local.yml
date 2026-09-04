@@ -51,7 +51,7 @@
   #    msg: "{{ actual_user }}"
     
   roles:
-    - chezmoi
+    #- chezmoi
     #- basic-folders-and-files
     #- basic-tools
     #- bluetooth-wifi
@@ -64,14 +64,14 @@
     #- oh-my-zsh
     #- gif-tools
     #- seafile-client
-    #- teleport
+    - teleport
     #- vscode
     #- role: desktop-customizing
     #  tags: ['customizing']
     #- role: slides
     #  tags: ['slides']
-    #- role: fix-suspend
-    #  tags: ['suspend']
+    - role: fix-suspend
+      tags: ['suspend']
     #- role: brother-scanner
     #  tags: ['brother-scanner']
     #- role: steam

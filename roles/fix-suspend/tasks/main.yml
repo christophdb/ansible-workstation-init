@@ -1,20 +1,126 @@
-# bash command, that made suspend possible was `sudo sh -c 'echo GPP0 > /proc/acpi/wakeup'`
-- name: Create and configure disable-gpp0-wakeup service
-  ansible.builtin.ini_file:
-    path: /etc/systemd/system/disable-gpp0-wakeup.service
-    section: "{{ item.section }}"
-    option: "{{ item.option }}"
-    value: "{{ item.value }}"
-  loop:
-    - { section: Unit, option: Description, value: "Disable GPP0 wakeup" }
-    - { section: Service, option: Type, value: oneshot }
-    - { section: Service, option: ExecStart, value: "/bin/sh -c 'echo GPP0 > /proc/acpi/wakeup'" }
-    - { section: Install, option: WantedBy, value: multi-user.target }
+# Behebt Instant-Wake aus S3: der Rechner ging schlafen und kam nach ~1s zurueck.
+# Hintergrund, Messmethode und Befund: docs/suspend-instant-wake.md
+#
+# Die abzuschaltenden ACPI-Weckquellen sind hardwareabhaengig und stehen pro
+# Mainboard in group_vars/all.yml unter wakeup_fix_boards.
 
-- name: Enable and start disable-gpp0-wakeup service
-  ansible.builtin.systemd:
-    name: disable-gpp0-wakeup
-    state: started
-    daemon_reload: true
-    enabled: true
-    
+- name: Look up wakeup sources for this mainboard
+  ansible.builtin.set_fact:
+    wakeup_fix: "{{ wakeup_fix_boards[ansible_board_name] | default({}) }}"
+
+- name: Report that this mainboard is not covered
+  ansible.builtin.debug:
+    msg: >-
+      Kein Eintrag fuer Board '{{ ansible_board_name }}' in wakeup_fix_boards -
+      ACPI-Teil uebersprungen. Die Weckquellen sind je Board verschieden und
+      muessen einmalig ermittelt werden, siehe docs/suspend-instant-wake.md
+  when: wakeup_fix.disable | default([]) | length == 0
+
+- name: Configure ACPI wakeup sources
+  when: wakeup_fix.disable | default([]) | length > 0
+  block:
+
+    # Vorgaenger dieser Rolle. Deckte nur GPP0 ab und schrieb blind auf
+    # /proc/acpi/wakeup. Muss weg, sonst toggeln beide Services gegeneinander.
+    - name: Check for legacy disable-gpp0-wakeup service
+      ansible.builtin.stat:
+        path: /etc/systemd/system/disable-gpp0-wakeup.service
+      register: legacy_wakeup_unit
+
+    - name: Disable legacy disable-gpp0-wakeup service
+      ansible.builtin.systemd:
+        name: disable-gpp0-wakeup
+        state: stopped
+        enabled: false
+      when: legacy_wakeup_unit.stat.exists
+
+    - name: Remove legacy disable-gpp0-wakeup unit
+      ansible.builtin.file:
+        path: /etc/systemd/system/disable-gpp0-wakeup.service
+        state: absent
+      when: legacy_wakeup_unit.stat.exists
+
+    - name: Install wakeup source script
+      ansible.builtin.copy:
+        dest: /usr/local/sbin/disable-wakeup-sources.sh
+        mode: '0755'
+        content: |
+          #!/bin/sh
+          # Von Ansible verwaltet (Rolle fix-suspend) - Aenderungen gehen verloren.
+          #
+          # Schaltet die ACPI-Weckquellen ab, die auf {{ ansible_board_name }}
+          # ein sofortiges Aufwachen aus S3 ausloesen.
+          # Bewusst scharf belassen: {{ wakeup_fix.keep | default([]) | join(' ') | default('(nichts)', true) }}
+          #
+          # Schreiben auf /proc/acpi/wakeup TOGGELT den Zustand. Darum nur
+          # schreiben, wenn die Quelle wirklich aktiv ist - sonst schaltet ein
+          # zweiter Lauf sie wieder ein.
+
+          for s in {{ wakeup_fix.disable | join(' ') }}; do
+              if grep -q "^$s[[:space:]].*\*enabled" /proc/acpi/wakeup; then
+                  echo "$s" > /proc/acpi/wakeup
+                  echo "wakeup deaktiviert: $s"
+              fi
+          done
+      register: wakeup_script
+
+    - name: Install disable-wakeup-sources service unit
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/disable-wakeup-sources.service
+        mode: '0644'
+        content: |
+          [Unit]
+          Description=Problematische ACPI-Weckquellen abschalten (Instant-Wake aus S3)
+          Documentation=man:acpi(4)
+          After=multi-user.target
+
+          [Service]
+          Type=oneshot
+          RemainAfterExit=yes
+          ExecStart=/usr/local/sbin/disable-wakeup-sources.sh
+
+          [Install]
+          WantedBy=multi-user.target
+      register: wakeup_unit
+
+    - name: Enable and start disable-wakeup-sources service
+      ansible.builtin.systemd:
+        name: disable-wakeup-sources
+        state: started
+        enabled: true
+        daemon_reload: true
+
+    # Der Service ist oneshot mit RemainAfterExit, "started" allein laeuft also
+    # nicht erneut. Bei geaenderter Liste neu anwenden. Das Skript ist idempotent.
+    # Achtung: eine aus disable entfernte Quelle wird dadurch NICHT wieder
+    # scharf geschaltet - dafuer neu starten.
+    - name: Re-apply changed wakeup configuration
+      ansible.builtin.systemd:
+        name: disable-wakeup-sources
+        state: restarted
+      when: wakeup_script.changed or wakeup_unit.changed
+
+# Zweiter Teil des urspruenglichen Problems: der automatische Ruhemodus war in
+# COSMIC ueberhaupt nicht aktiv (suspend_on_ac_time = None), der Rechner hat es
+# also nie von selbst versucht.
+- name: Configure COSMIC automatic suspend
+  block:
+
+    - name: Check for COSMIC session
+      ansible.builtin.stat:
+        path: /usr/bin/cosmic-session
+      register: cosmic_session
+
+    - name: Ensure COSMIC idle config directory exists
+      become_user: "{{ actual_user }}"
+      ansible.builtin.file:
+        path: "/home/{{ actual_user }}/.config/cosmic/com.system76.CosmicIdle/v1"
+        state: directory
+      when: cosmic_session.stat.exists
+
+    - name: Set COSMIC idle suspend timeout
+      become_user: "{{ actual_user }}"
+      ansible.builtin.copy:
+        dest: "/home/{{ actual_user }}/.config/cosmic/com.system76.CosmicIdle/v1/suspend_on_ac_time"
+        content: "{{ 'None' if cosmic_suspend_on_ac_ms == 'None' else 'Some(' ~ cosmic_suspend_on_ac_ms ~ ')' }}"
+      when: cosmic_session.stat.exists
